@@ -39,18 +39,18 @@ const {movieDescription}=props
         >
           <View style={{ alignItems: "center", marginTop: -40 }}>
             <Text style={{ color: "white", fontSize: 16 }}>
-              Superman Returns
+           { movieDescription.Title}
             </Text>
           </View>
           <View style={{ alignItems: "flex-start", marginLeft: 5 }}>
             <View>
-              <Text style={{ color: "white" }}>Year:{movieDescription.Year}</Text>
+              <Text style={{ color: "white" }}>Year: {movieDescription.Year}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>imdbID:{movieDescription.imdbID}</Text>
+              <Text style={{ color: "white" }}>imdbID: {movieDescription.imdbID}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>Type:{movieDescription.Type}</Text>
+              <Text style={{ color: "white" }}>Type: {movieDescription.Type}</Text>
             </View>
           </View>
         </View>

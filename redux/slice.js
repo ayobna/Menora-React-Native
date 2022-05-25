@@ -1,24 +1,57 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const numberSlice = createSlice({
-    name:'number',
-    initialState:{
-        total:1
-    },
-    reducers:{
-        plus:(state,action)=>{
-            state.total++;
-            console.log(action);
+const recommendedMoviesSlice = createSlice({
+  name: "recommendedMovies",
+  initialState: {
+    recommendedMovies: [
+      {
+        Title: "Batman v Superman: Dawn of Justice",
+        Year: "2016",
+        imdbID: "tt2975590",
+        Type: "movie",
+        Poster:
+          "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+      },
+    ],
+  },
+  reducers: {
+    add: (state, action) => {
+      state.total++;
+      console.log(action);
+      state.recommendedMovies = [
+        {
+          Title: "Batman v Superman: Dawn of Justice",
+          Year: "2016",
+          imdbID: "tt2975590",
+          Type: "movie",
+          Poster:
+            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
         },
-        minus:(state,action)=>{
-            state.total--;
-            console.log(state.total);
-        }
-    }
-
+        {
+          Title: "Batman v Superman: Dawn of Justice",
+          Year: "2016",
+          imdbID: "tt2975590",
+          Type: "movie",
+          Poster:
+            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+        },
+        {
+          Title: "Batman v Superman: Dawn of Justice",
+          Year: "2016",
+          imdbID: "tt2975590",
+          Type: "movie",
+          Poster:
+            "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+        },
+      ];
+    },
+    minus: (state, action) => {
+      state.total--;
+      console.log(state.total);
+    },
+  },
 });
 
+export const { add, minus } = recommendedMoviesSlice.actions;
 
-export const {plus,minus} = numberSlice.actions;
-
-export default  numberSlice.reducer;
+export default recommendedMoviesSlice.reducer;
