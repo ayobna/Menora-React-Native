@@ -3,7 +3,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { Card } from "react-native-paper";
 
-function MovieDescription() {
+function MovieDescription(props) {
+const {movieDescription}=props
+console.log("movieDescription",movieDescription)
   return (
     <Card >
       <View
@@ -23,7 +25,7 @@ function MovieDescription() {
             borderColor: "white",
           }}
         >
-          <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+          <Card.Cover source={{ uri: movieDescription.Poster }} />
         </View>
         <View
           style={{
@@ -42,13 +44,13 @@ function MovieDescription() {
           </View>
           <View style={{ alignItems: "flex-start", marginLeft: 5 }}>
             <View>
-              <Text style={{ color: "white" }}>Year:2006</Text>
+              <Text style={{ color: "white" }}>Year:{movieDescription.Year}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>imdbID:tt0349565</Text>
+              <Text style={{ color: "white" }}>imdbID:{movieDescription.imdbID}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>Type:move</Text>
+              <Text style={{ color: "white" }}>Type:{movieDescription.Type}</Text>
             </View>
           </View>
         </View>
