@@ -15,14 +15,12 @@ import { Button } from "react-native-paper";
 function MoviesList(props) {
   const { movies, changeMovieDescription } = props;
 
-  const changeMovieDescription5 = (item) => {
-    changeMovieDescription(item);
-  };
+
   const renderItem = (item) => {
     // console.log("item",item)
     return (
       <View style={{ borderLeftWidth: 15 }}>
-        <TouchableOpacity onPress={() => changeMovieDescription5(item.item)}>
+        <TouchableOpacity onPress={() => changeMovieDescription(item.item)}>
           <View>
             <Image style={styles.image} source={{ uri: item.item.Poster }} />
           </View>
