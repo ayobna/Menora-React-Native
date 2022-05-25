@@ -13,21 +13,27 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Button } from "react-native-paper";
 
 function MoviesList(props) {
-  const { movies } = props;
+  const { movies, changeMovieDescription } = props;
 
-
-
+  const changeMovieDescription5 = (item) => {
+    changeMovieDescription(item);
+  };
   const renderItem = (item) => {
-    console.log("item",item)
+    // console.log("item",item)
     return (
       <View style={{ borderLeftWidth: 15 }}>
-        <View>
-          <Image
-            style={styles.image}
-            source={{ uri: item.item.Poster}}
-          />
-        </View>
-        <View style={{ backgroundColor: "#020", maxHeight: 20 }}>
+        <TouchableOpacity onPress={() => changeMovieDescription5(item.item)}>
+          <View>
+            <Image style={styles.image} source={{ uri: item.item.Poster }} />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            backgroundColor: "white",
+            maxHeight: 20,
+            alignItems: "center",
+          }}
+        >
           <MaterialCommunityIcons name="star" size={23} />
         </View>
       </View>
@@ -57,8 +63,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   image: {
-    width: 120,
-    height: 120,
+    backgroundColor: "black",
+    width: 130,
+    height: 130,
   },
 });
 export default MoviesList;
