@@ -5,16 +5,18 @@ import { StyleSheet, View, Text, I18nManager } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import MyDrawer from "./navigation/MyDrawer";
-//import {Provider} from 'react-redux';
-//import store from './redux/redux'
+import {Provider} from 'react-redux';
+import store from './redux/redux'
 
 export default function App() {
   return (
+    <Provider store={store}>
     <PaperProvider>
       <NavigationContainer>
         <MyDrawer />
       </NavigationContainer>
     </PaperProvider>
+    </Provider>
   );
 }
 

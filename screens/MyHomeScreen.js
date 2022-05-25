@@ -6,19 +6,24 @@ import { Searchbar, Title } from "react-native-paper";
 // import { API, API_Key } from "../api/api";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { setMoviesRecommendedMovies } from "../redux/slices/recommendedMoviesSlice";
+import { setNewMovies } from "../redux/slices/newMoviesSlice";
+
 function MyHomeScreen() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [newMovies, setNewMovies] = useState([]);
-    const [movieDescription, setMovieDescription] = useState({
-      Title: "Batman v Superman: Dawn of Justice",
-      Year: "2016",
-      imdbID: "tt2975590",
-      Type: "movie",
-      Poster:
-        "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    });
+
+  const dispatch = useDispatch();
+
+  const [movieDescription, setMovieDescription] = useState({
+    Title: "Batman v Superman: Dawn of Justice",
+    Year: "2016",
+    imdbID: "tt2975590",
+    Type: "movie",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+  });
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", async () => {
@@ -30,26 +35,24 @@ function MyHomeScreen() {
 
   const getRecommendedMovies = async () => {
     try {
-      console.log("getData");
       const response = await axios.get(
         "http://www.omdbapi.com/?s=superman&page=1&apikey=baa3c4ad"
       );
-      // console.log(response.data);
-      console.log("getRecommendedMovies");
-      setMovies(response.data.Search);
+      if (response.data.Response && response.data.totalResults > 5) {
+        dispatch(setMoviesRecommendedMovies(response.data.Search));
+      }
     } catch (err) {
       console.log(err);
     }
   };
   const getNewMovies = async () => {
     try {
-      console.log("getData");
       const response = await axios.get(
         "https://www.omdbapi.com/?s=super&apikey=baa3c4ad&type=movie&y=2022"
       );
-      // console.log(response.data);
-      console.log("getNewMovies");
-      setNewMovies(response.data.Search);
+      if (response.data.Response && response.data.totalResults > 5) {
+        dispatch(setNewMovies(response.data.Search));
+      }
     } catch (err) {
       console.log(err);
     }
@@ -60,12 +63,12 @@ function MyHomeScreen() {
 
   const searchMovies = async () => {
     try {
-      console.log("getData");
       const response = await axios.get(
         `http://www.omdbapi.com/?s=` + searchQuery + `&page=1&apikey=baa3c4ad`
       );
-      if (response.Response && response.totalResults > 5) {
-        setMovies(response.data.Search);
+      if (response.data.Response && response.data.totalResults > 5) {
+        console.log("Successful search");
+        dispatch(setMoviesRecommendedMovies(response.data.Search));
       }
     } catch (err) {
       console.log(err);
@@ -89,7 +92,7 @@ function MyHomeScreen() {
             <Title style={styles.text}>Recommended Movies</Title>
           </View>
           <MoviesList
-            movies={movies}
+            type="recommendedMovies"
             changeMovieDescription={changeMovieDescription}
           />
           <View>
@@ -107,7 +110,7 @@ function MyHomeScreen() {
             </View>
 
             <MoviesList
-              movies={newMovies}
+              type="newMovies"
               changeMovieDescription={changeMovieDescription}
             />
           </View>

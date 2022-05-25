@@ -11,15 +11,20 @@ import {
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "react-native-paper";
-import {useSelector,useDispatch} from 'react-redux';
-import {add} from "../redux/slice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 function MoviesList(props) {
-  //const { movies, changeMovieDescription } = props;
-
+  const { changeMovieDescription, type } = props;
+  const route = useRoute();
+  let movies = [];
   const [favMovie, setFavMovie] = useState(true);
-const movies = useSelector(state=>state.recommendedMovies.recommendedMovies);
-const dispatch = useDispatch();
+  if (type === "recommendedMovies") {
+    movies = useSelector((state) => state.recommendedMovies.movies);
+  } else {
+    movies = useSelector((state) => state.newMovies.movies);
+  }
 
   const handleFavMovie = () => {
     setFavMovie(!favMovie);
