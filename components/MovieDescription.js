@@ -5,7 +5,7 @@ import { Card } from "react-native-paper";
 
 function MovieDescription(props) {
 const {movieDescription}=props
-console.log("movieDescription",movieDescription)
+
   return (
     <Card >
       <View
