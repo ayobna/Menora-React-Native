@@ -91,10 +91,12 @@ function MyHomeScreen() {
           <View style={styles.titleVew}>
             <Title style={styles.text}>Recommended Movies</Title>
           </View>
+          <View style={{height:"21%"}}>
           <MoviesList
             type="recommendedMovies"
             changeMovieDescription={changeMovieDescription}
           />
+          </View>
           <View>
             <View style={styles.titleVew}>
               <Title style={styles.text}>Movie Description</Title>
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 16,
+    left:10
   },
   titleVew: {
     marginTop: 20,

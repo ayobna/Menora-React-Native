@@ -7,7 +7,7 @@ function MovieDescription(props) {
 const {movieDescription}=props
 
   return (
-    <Card >
+    <Card style={{borderWidth:10}} >
       <View
         style={{
           flexDirection: "row",
@@ -20,24 +20,25 @@ const {movieDescription}=props
         <View
           style={{
             width: "45%",
-            borderWidth: 1,
+          //  borderWidth: 1,
             height: "100%",
             borderColor: "white",
+            backgroundColor:'black'
           }}
         >
-          <Card.Cover source={{ uri: movieDescription.Poster }} />
+          <Card.Cover style={{width:"90%",backgroundColor:'black'}} source={{ uri: movieDescription.Poster }} />
         </View>
         <View
           style={{
             width: "44%",
             height: "100%",
-            borderWidth: 1,
+         //   borderWidth: 1,
             borderColor: "white",
             justifyContent: "space-evenly",
-            backgroundColor: "gray",
+            backgroundColor: "#191919",
           }}
         >
-          <View style={{ alignItems: "center", marginTop: -40 }}>
+          <View style={{ alignItems: "center"}}>
             <Text style={{ color: "white", fontSize: 16 }}>
            { movieDescription.Title}
             </Text>

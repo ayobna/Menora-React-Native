@@ -8,16 +8,19 @@ const StackNavigation = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="HomeTab"
+        
         component={HomeTab}
         options={{
           title: "My Home",
-          headerTitleStyle: {
-            color: "white",
-          },
-          headerStyle: {
-            backgroundColor: "red",
-          },
-          headerTitleAlign: "center",
+          headerShown: false,
+          // headerTitleStyle: {
+          //   color: "white",
+          // },
+
+          // headerStyle: {
+          //   backgroundColor: "red",
+          // },
+          // headerTitleAlign: "center",
         }}
       />
     </Stack.Navigator>
