@@ -9,10 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { setMoviesRecommendedMovies } from "../redux/slices/recommendedMoviesSlice";
 import { setNewMovies } from "../redux/slices/newMoviesSlice";
+import SearchbarComp from "../components/SearchbarComp";
 
 function MyHomeScreen() {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
 
@@ -26,12 +26,9 @@ function MyHomeScreen() {
   });
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", async () => {
-      await getRecommendedMovies();
-      await getNewMovies();
-    });
-    return unsubscribe;
-  }, [navigation]);
+    getRecommendedMovies();
+    getNewMovies();
+  }, []);
 
   const getRecommendedMovies = async () => {
     try {
@@ -61,7 +58,7 @@ function MyHomeScreen() {
     setMovieDescription(movieDesc);
   };
 
-  const searchMovies = async () => {
+  const searchMovies = async (searchQuery) => {
     try {
       const response = await axios.get(
         `http://www.omdbapi.com/?s=` + searchQuery + `&page=1&apikey=baa3c4ad`
@@ -77,25 +74,19 @@ function MyHomeScreen() {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <View style={{ marginBottom: 30 }}>
+        <View style={styles.scrollViewContainer}>
           <View>
-            <Searchbar
-              style={{}}
-              placeholder="Search"
-              onChangeText={(query) => setSearchQuery(query)}
-              value={searchQuery}
-              onIconPress={searchMovies}
-            />
+            <SearchbarComp searchMovies={searchMovies} />
           </View>
 
           <View style={styles.titleVew}>
             <Title style={styles.text}>Recommended Movies</Title>
           </View>
-          <View style={{height:"21%"}}>
-          <MoviesList
-            type="recommendedMovies"
-            changeMovieDescription={changeMovieDescription}
-          />
+          <View>
+            <MoviesList
+              type="recommendedMovies"
+              changeMovieDescription={changeMovieDescription}
+            />
           </View>
           <View>
             <View style={styles.titleVew}>
@@ -127,13 +118,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
   },
-  scrollView: {
-    // height: "70%",
+  scrollViewContainer: {
+    marginBottom: 30,
   },
   text: {
     color: "white",
     fontSize: 16,
-    left:10
+    left: 10,
   },
   titleVew: {
     marginTop: 20,

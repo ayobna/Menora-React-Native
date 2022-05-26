@@ -4,54 +4,33 @@ import { View, Text, StyleSheet, Platform } from "react-native";
 import { Card } from "react-native-paper";
 
 function MovieDescription(props) {
-const {movieDescription}=props
+  const { movieDescription } = props;
 
   return (
-    <Card style={{borderWidth:10}} >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          width: "100%",
-          // height: "100%",
-          backgroundColor: "black",
-        }}
-      >
-        <View
-          style={{
-            width: "45%",
-          //  borderWidth: 1,
-            height: "100%",
-            borderColor: "white",
-            backgroundColor:'black'
-          }}
-        >
-          <Card.Cover style={{width:"90%",backgroundColor:'black'}} source={{ uri: movieDescription.Poster }} />
+    <Card style={styles.card}>
+      <View style={styles.container}>
+        <View style={styles.coverView}>
+          <Card.Cover
+            style={styles.cover}
+            source={{ uri: movieDescription.Poster }}
+          />
         </View>
-        <View
-          style={{
-            width: "44%",
-            height: "100%",
-         //   borderWidth: 1,
-            borderColor: "white",
-            justifyContent: "space-evenly",
-            backgroundColor: "#191919",
-          }}
-        >
-          <View style={{ alignItems: "center"}}>
+        <View style={styles.descView}>
+          <View style={styles.titleView}>
             <Text style={{ color: "white", fontSize: 16 }}>
-           { movieDescription.Title}
+              {movieDescription.Title}
             </Text>
           </View>
-          <View style={{ alignItems: "flex-start", marginLeft: 5 }}>
+
+          <View style={styles.moreDesc}>
             <View>
-              <Text style={{ color: "white" }}>Year: {movieDescription.Year}</Text>
+              <Text style={styles.text}>Year: {movieDescription.Year}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>imdbID: {movieDescription.imdbID}</Text>
+              <Text style={styles.text}>imdbID: {movieDescription.imdbID}</Text>
             </View>
             <View>
-              <Text style={{ color: "white" }}>Type: {movieDescription.Type}</Text>
+              <Text style={styles.text}>Type: {movieDescription.Type}</Text>
             </View>
           </View>
         </View>
@@ -60,5 +39,41 @@ const {movieDescription}=props
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  card: {
+    borderWidth: 10,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
+    backgroundColor: "black",
+  },
+  coverView: {
+    width: "45%",
+    height: "100%",
+    backgroundColor: "black",
+  },
+  cover: {
+    width: "90%",
+    backgroundColor: "black",
+  },
+  descView: {
+    width: "44%",
+    //height: "100%",
+    backgroundColor: "#191919",
+  },
+  titleView: {
+    alignItems: "center",
+    flex: 0.2,
+  },
+  moreDesc: {
+    flex: 0.7,
+    justifyContent: "space-evenly",
+    left: 5,
+  },
+  text: {
+    color: "white",
+  },
+});
 export default MovieDescription;

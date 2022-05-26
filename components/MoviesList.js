@@ -13,11 +13,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Button } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { addFavoritesMovies } from "../redux/slices/favoritesSlice";
 import { useRoute } from "@react-navigation/native";
 
 function MoviesList(props) {
   const { changeMovieDescription, type } = props;
   const route = useRoute();
+  const dispatch = useDispatch();
   let movies = [];
   const [favMovie, setFavMovie] = useState(true);
   if (type === "recommendedMovies") {
@@ -29,6 +31,11 @@ function MoviesList(props) {
   const handleFavMovie = () => {
     setFavMovie(!favMovie);
   };
+  const changeMovieDesc = (movie) => {
+    changeMovieDescription(movie);
+    dispatch(addFavoritesMovies());
+  };
+
   const renderItem = (item) => {
     let movie = item.item;
     if (
@@ -38,18 +45,12 @@ function MoviesList(props) {
     )
       return (
         <View style={{ borderLeftWidth: 15 }}>
-          <TouchableOpacity onPress={() => changeMovieDescription(movie)}>
+          <TouchableOpacity onPress={() => changeMovieDesc(movie)}>
             <View>
               <Image style={styles.image} source={{ uri: movie.Poster }} />
             </View>
           </TouchableOpacity>
-          <View
-            style={{
-              backgroundColor: "gray",
-              maxHeight: 20,
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.iconView}>
             <MaterialCommunityIcons
               name="star"
               color={favMovie ? "white" : "yellow"}
@@ -87,6 +88,11 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: 130,
     height: 130,
+  },
+  iconView: {
+    backgroundColor: "#191919",
+    maxHeight: 20,
+    alignItems: "center",
   },
 });
 export default MoviesList;

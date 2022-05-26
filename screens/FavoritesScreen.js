@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import MovieDescription from "../components/MovieDescription";
 import { Title } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { setMoviesRecommendedMovies } from "../redux/slices/recommendedMoviesSlice";
-import { setNewMovies } from "../redux/slices/newMoviesSlice";
-
+import { clearFavoritesMovies } from "../redux/slices/favoritesSlice";
 function FavoritesScreen() {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [movies, setMovies] = useState([
     {
       Title: "Batman v Superman: Dawn of Justice",
@@ -92,25 +92,28 @@ function FavoritesScreen() {
     },
   ]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", async () => {
+      dispatch(clearFavoritesMovies());
+    });
+    return unsubscribe;
+  }, [navigation]);
   const renderItem = (item) => {
     return (
-      <View
-        style={{
-          height: "10%",
-          width: "95%",  
-              
-        }}
-      >
-        <View>
+      <View style={styles.itemContainer}>
+        <View style={{flex:1,justifyContent:'center'}}>
           <Title style={styles.text}>{item.Title}</Title>
         </View>
-        <MovieDescription movieDescription={item} />
+
+        <View>
+          <MovieDescription movieDescription={item} />
+        </View>
       </View>
     );
   };
   return (
     <View style={styles.container}>
-      <View style={{ top: 15 }}>
+      <View style={styles.flatListView}>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={movies}
@@ -127,13 +130,19 @@ function FavoritesScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-  
- 
   },
   text: {
     color: "white",
     fontSize: 16,
-    left:10,
+    left: 10,
+  },
+  flatListView: {
+    top: 15,
+  },
+  itemContainer: {
+
+    height: "10%",
+    width: "100%",
   },
 });
 export default FavoritesScreen;
