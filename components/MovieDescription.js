@@ -8,33 +8,37 @@ function MovieDescription(props) {
 
   return (
     <Card style={styles.card}>
-      <View style={styles.container}>
-        <View style={styles.coverView}>
-          <Card.Cover
-            style={styles.cover}
-            source={{ uri: movieDescription.Poster }}
-          />
-        </View>
-        <View style={styles.descView}>
-          <View style={styles.titleView}>
-            <Text style={{ color: "white", fontSize: 16 }}>
-              {movieDescription.Title}
-            </Text>
+      {movieDescription !== undefined && (
+        <View style={styles.container}>
+          <View style={styles.coverView}>
+            <Card.Cover
+              style={styles.cover}
+              source={{ uri: movieDescription.Poster }}
+            />
           </View>
+          <View style={styles.descView}>
+            <View style={styles.titleView}>
+              <Text style={{ color: "white", fontSize: 16 }}>
+                {movieDescription.Title}
+              </Text>
+            </View>
 
-          <View style={styles.moreDesc}>
-            <View>
-              <Text style={styles.text}>Year: {movieDescription.Year}</Text>
-            </View>
-            <View>
-              <Text style={styles.text}>imdbID: {movieDescription.imdbID}</Text>
-            </View>
-            <View>
-              <Text style={styles.text}>Type: {movieDescription.Type}</Text>
+            <View style={styles.moreDesc}>
+              <View>
+                <Text style={styles.text}>Year: {movieDescription.Year}</Text>
+              </View>
+              <View>
+                <Text style={styles.text}>
+                  imdbID: {movieDescription.imdbID}
+                </Text>
+              </View>
+              <View>
+                <Text style={styles.text}>Type: {movieDescription.Type}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      )}
     </Card>
   );
 }
@@ -42,11 +46,12 @@ function MovieDescription(props) {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 10,
+    flex: 1,
   },
   container: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    width: "100%",
     backgroundColor: "black",
   },
   coverView: {

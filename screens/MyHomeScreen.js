@@ -10,26 +10,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { setMoviesRecommendedMovies } from "../redux/slices/recommendedMoviesSlice";
 import { setNewMovies } from "../redux/slices/newMoviesSlice";
 import SearchbarComp from "../components/SearchbarComp";
-
+import { setLocalStorageData } from "../redux/slices/favoritesSlice";
+import { _getData, _storeData } from "../utils/Functions";
 function MyHomeScreen() {
-  const navigation = useNavigation();
-
   const dispatch = useDispatch();
 
-  const [movieDescription, setMovieDescription] = useState({
-    Title: "Batman v Superman: Dawn of Justice",
-    Year: "2016",
-    imdbID: "tt2975590",
-    Type: "movie",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-  });
+  const movie = useSelector((state) => state.recommendedMovies.firstMovies);
 
   useEffect(() => {
+    getData();
     getRecommendedMovies();
     getNewMovies();
   }, []);
 
+  const getData = async () => {
+    let dataTotal = await _getData("total");
+    let dataMovies = await _getData("movies");
+    let total = 0;
+    let movies = [];
+    if (dataMovies != null) {
+      movies = dataMovies.movies;
+    }
+    if (dataTotal != null) {
+      total = dataTotal.total;
+    }
+    let data = [movies, dataTotal.total];
+    dispatch(setLocalStorageData(data));
+  };
   const getRecommendedMovies = async () => {
     try {
       const response = await axios.get(
@@ -54,10 +61,6 @@ function MyHomeScreen() {
       console.log(err);
     }
   };
-  const changeMovieDescription = (movieDesc) => {
-    setMovieDescription(movieDesc);
-  };
-
   const searchMovies = async (searchQuery) => {
     try {
       const response = await axios.get(
@@ -71,6 +74,7 @@ function MyHomeScreen() {
       console.log(err);
     }
   };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -83,10 +87,7 @@ function MyHomeScreen() {
             <Title style={styles.text}>Recommended Movies</Title>
           </View>
           <View>
-            <MoviesList
-              type="recommendedMovies"
-              changeMovieDescription={changeMovieDescription}
-            />
+            <MoviesList type="recommendedMovies" />
           </View>
           <View>
             <View style={styles.titleVew}>
@@ -94,7 +95,7 @@ function MyHomeScreen() {
             </View>
 
             <View style={styles.movieDescription}>
-              <MovieDescription movieDescription={movieDescription} />
+              <MovieDescription movieDescription={movie} />
             </View>
           </View>
           <View>
@@ -102,10 +103,7 @@ function MyHomeScreen() {
               <Title style={styles.text}>New Movies</Title>
             </View>
 
-            <MoviesList
-              type="newMovies"
-              changeMovieDescription={changeMovieDescription}
-            />
+            <MoviesList type="newMovies" />
           </View>
         </View>
       </ScrollView>
