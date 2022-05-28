@@ -64,7 +64,8 @@ function FavoritesScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    flex: 1,
+  flex: 1,
+
   },
   text: {
     color: "white",
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     top: 15,
+    flex: 1,
   },
 });
 export default FavoritesScreen;
