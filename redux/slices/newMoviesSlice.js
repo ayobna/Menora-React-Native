@@ -7,11 +7,20 @@ const newMoviesSlice = createSlice({
   },
   reducers: {
     setNewMovies: (state, action) => {
-      let oldMoviesList = action.payload;
+      let oldMoviesList = action.payload.movies;
       let newMoviesList = [];
+      let favMovies = action.payload.favoritesMovies;
       for (let index = 0; index < oldMoviesList.length; index++) {
-        oldMoviesList[index].fav = false;
         let movie = oldMoviesList[index];
+        movie.fav = false;
+        if (favMovies !== undefined) {
+          let indexOf = favMovies.findIndex(
+            (item) => item.imdbID === movie.imdbID
+          );
+          if (indexOf !== -1) {
+            movie.fav = true;
+          }
+        }
         newMoviesList.push(movie);
       }
       state.movies = newMoviesList;
@@ -21,12 +30,13 @@ const newMoviesSlice = createSlice({
       let objIndex = newMoviesList.findIndex(
         (obj) => obj.imdbID == action.payload.imdbID
       );
-      newMoviesList[objIndex] = action.payload;      
+      newMoviesList[objIndex] = action.payload;
       state.movies = newMoviesList;
-    },
+    }
   },
 });
 
-export const { setNewMovies, updateFavMovie } = newMoviesSlice.actions;
+export const { setNewMovies, updateFavMovie, updateFavoriteMovies } =
+  newMoviesSlice.actions;
 
 export default newMoviesSlice.reducer;

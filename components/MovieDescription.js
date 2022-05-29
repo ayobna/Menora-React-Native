@@ -1,6 +1,5 @@
-import { Button } from "react-native-paper";
-import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
 
 function MovieDescription(props) {

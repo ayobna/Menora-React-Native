@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -14,23 +14,19 @@ import {
   changeMovieDescription,
 } from "../redux/slices/recommendedMoviesSlice";
 import { updateFavMovie as newMoveFav } from "../redux/slices/newMoviesSlice";
-import { useNavigation } from "@react-navigation/native";
 import { _getData, _storeData } from "../utils/Functions";
-import { useRoute } from "@react-navigation/native";
 
 function MoviesList(props) {
   const {  type } = props;
   const dispatch = useDispatch();
-  const total = useSelector((state) => state.favorites.total);
-
   let movies = [];
-
   if (type === "recommendedMovies") {
     movies = useSelector((state) => state.recommendedMovies.movies);
     //() =>
   } else {
     movies = useSelector((state) => state.newMovies.movies);
   }
+
   const handleFavMovie = (movie) => {
     let newMove = {
       Poster: movie.Poster,
@@ -49,10 +45,6 @@ function MoviesList(props) {
     dispatch(addFavoritesMovies(newMove));
   };
 
-  useEffect(() => {
-    changeMovieDesc(movies[0]);
-  }, []);
-  const changeMovieDesc = (movie) => {};
 
   const renderItem = (item) => {
     let movie = item.item;

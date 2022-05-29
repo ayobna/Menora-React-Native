@@ -1,49 +1,47 @@
-import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
 import MoviesList from "../components/MoviesList";
 import MovieDescription from "../components/MovieDescription";
-import { Searchbar, Title } from "react-native-paper";
-// import { API, API_Key } from "../api/api";
+import { Title } from "react-native-paper";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { setMoviesRecommendedMovies } from "../redux/slices/recommendedMoviesSlice";
 import { setNewMovies } from "../redux/slices/newMoviesSlice";
 import SearchbarComp from "../components/SearchbarComp";
-import { setLocalStorageData } from "../redux/slices/favoritesSlice";
 import { _getData, _storeData } from "../utils/Functions";
+
 function MyHomeScreen() {
   const dispatch = useDispatch();
-
-  const movie = useSelector((state) => state.recommendedMovies.firstMovies);
+  const [isSearch, setIsSearch] = useState(false);
+  const movieDescription = useSelector(
+    (state) => state.recommendedMovies.firstMovies
+  );
+  const favoritesMovies = useSelector((state) => state.favorites.movies);
 
   useEffect(() => {
-    getData();
     getRecommendedMovies();
     getNewMovies();
   }, []);
 
-  const getData = async () => {
-    let dataTotal = await _getData("total");
-    let dataMovies = await _getData("movies");
-    let total = 0;
-    let movies = [];
-    if (dataMovies != null) {
-      movies = dataMovies.movies;
+  useEffect(() => {
+    if (favoritesMovies !== undefined && favoritesMovies[0] != undefined) {
+      getNewMovies();
+      !isSearch && getRecommendedMovies();
     }
-    if (dataTotal != null) {
-      total = dataTotal.total;
-    }
-    let data = [movies, dataTotal.total];
-    dispatch(setLocalStorageData(data));
-  };
+  }, [favoritesMovies]);
+
   const getRecommendedMovies = async () => {
     try {
       const response = await axios.get(
         "http://www.omdbapi.com/?s=superman&page=1&apikey=baa3c4ad"
       );
       if (response.data.Response && response.data.totalResults > 5) {
-        dispatch(setMoviesRecommendedMovies(response.data.Search));
+        dispatch(
+          setMoviesRecommendedMovies({
+            movies: response.data.Search,
+            favoritesMovies: favoritesMovies,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
@@ -55,7 +53,12 @@ function MyHomeScreen() {
         "https://www.omdbapi.com/?s=super&apikey=baa3c4ad&type=movie&y=2022"
       );
       if (response.data.Response && response.data.totalResults > 5) {
-        dispatch(setNewMovies(response.data.Search));
+        dispatch(
+          setNewMovies({
+            movies: response.data.Search,
+            favoritesMovies: favoritesMovies,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
@@ -68,7 +71,13 @@ function MyHomeScreen() {
       );
       if (response.data.Response && response.data.totalResults > 5) {
         console.log("Successful search");
-        dispatch(setMoviesRecommendedMovies(response.data.Search));
+        setIsSearch(true);
+        dispatch(
+          setMoviesRecommendedMovies({
+            movies: response.data.Search,
+            favoritesMovies: favoritesMovies,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
@@ -95,7 +104,7 @@ function MyHomeScreen() {
             </View>
 
             <View style={styles.movieDescription}>
-              <MovieDescription movieDescription={movie} />
+              <MovieDescription movieDescription={movieDescription} />
             </View>
           </View>
           <View>

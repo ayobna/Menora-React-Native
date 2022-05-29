@@ -8,14 +8,22 @@ const recommendedMoviesSlice = createSlice({
   },
   reducers: {
     setMoviesRecommendedMovies: (state, action) => {
-      let oldMoviesList = action.payload;
+      let oldMoviesList = action.payload.movies;
       let newMoviesList = [];
+      let favMovies = action.payload.favoritesMovies;
       for (let index = 0; index < oldMoviesList.length; index++) {
-        oldMoviesList[index].fav = false;
         let movie = oldMoviesList[index];
+        movie.fav = false;
+        if (favMovies !== undefined) {
+          let indexOf = favMovies.findIndex(
+            (item) => item.imdbID === movie.imdbID
+          );
+          if (indexOf !== -1) {
+            movie.fav = true;
+          }
+        }
         newMoviesList.push(movie);
       }
-
       state.firstMovies = newMoviesList[0];
       state.movies = newMoviesList;
     },
